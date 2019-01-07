@@ -3,12 +3,15 @@ package br.com.mol.molapi.entity;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import br.com.mol.molapi.entity.enums.Gender;
 import lombok.Data;
 
 @MappedSuperclass
@@ -31,12 +34,29 @@ public abstract class User {
 	private boolean resetPassword;
 
 	@Column(length = 1)
-	private boolean registerConfirmed;
+	private boolean confirmed;
 
 	@Column(length = 1)
 	private boolean active;
-	
+
+	@NotNull
+	@Column(length = 13, unique = true)
+	private String cpf;
+
+	@Column(length = 50)
+	private String phone;
+
+	@Enumerated(EnumType.STRING)
+	@Column(length = 8)
+	private Gender gender;
+
+	@Temporal(value = TemporalType.DATE)
+	private Date birthDate;
+
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date createdAt;
+
+	@Temporal(value = TemporalType.TIMESTAMP)
+	private Date updatedAt;
 
 }
