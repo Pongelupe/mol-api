@@ -5,4 +5,4 @@ create table pacient (id varchar(36) not null, active boolean, birth_date date, 
 alter table doctor add constraint UK_DOCTOR_CPF unique (cpf)
 alter table doctor add constraint UK_DOCTOR_EMAIL unique (email)
 alter table pacient add constraint UK_PACIENT_CPF unique (cpf)
-alter table pacient add constraint UK_r4tslbv0lk9lqi95jq6xrmkec unique (email)
+alter table pacient add constraint UK_PACIENT_EMAIL unique (email)
