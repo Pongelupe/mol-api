@@ -29,7 +29,6 @@ public class ReportValidator extends BaseValidator<ReportPayload> {
 		}
 	}
 
-	// TODO - Validar campos obrigatorios no json
 	private void validateRequiredFields(String json, Errors errors) {
 		ReadContext documentContext = JsonPath.parse(json);
 		List<String> requiredFields = target.getReport().getRequiredFields();
