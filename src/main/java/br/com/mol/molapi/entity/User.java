@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
@@ -15,13 +16,16 @@ import org.hibernate.annotations.GenericGenerator;
 
 import br.com.mol.molapi.entity.enums.Gender;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @MappedSuperclass
 @Data
-public abstract class User {
+@NoArgsConstructor
+public class User {
 
 	@Id
 	@Column(length = 36)
+	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
 
@@ -30,7 +34,11 @@ public abstract class User {
 	private String email;
 
 	@NotNull
-	@Column(length = 15)
+	@Column(length = 50)
+	private String name;
+
+	@NotNull
+	@Column(length = 36)
 	private String password;
 
 	@Column(length = 1)
@@ -43,7 +51,7 @@ public abstract class User {
 	private boolean active;
 
 	@NotNull
-	@Column(length = 13, unique = true)
+	@Column(length = 14, unique = true)
 	private String cpf;
 
 	@Column(length = 50)
@@ -51,9 +59,11 @@ public abstract class User {
 
 	@Enumerated(EnumType.STRING)
 	@Column(length = 8)
+	@NotNull
 	private Gender gender;
 
 	@Temporal(value = TemporalType.DATE)
+	@NotNull
 	private Date birthDate;
 
 	@Temporal(value = TemporalType.TIMESTAMP)
@@ -61,5 +71,19 @@ public abstract class User {
 
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date updatedAt;
+
+	User(User user) {
+		this.name = user.getName();
+		this.cpf = user.getCpf();
+		this.email = user.getEmail();
+		this.password = user.getPassword();
+		this.active = user.isActive();
+		this.resetPassword = user.isResetPassword();
+		this.confirmed = user.isConfirmed();
+		this.birthDate = user.getBirthDate();
+		this.createdAt = user.getCreatedAt();
+		this.updatedAt = user.getUpdatedAt();
+		this.gender = user.getGender();
+	}
 
 }
