@@ -1,6 +1,6 @@
 package br.com.mol.molapi.entity;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -16,5 +16,5 @@ import lombok.EqualsAndHashCode;
 public class Patient extends User {
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "patient", orphanRemoval = true)
-	private List<Contraindication> contraindications;
+	private Set<Contraindication> contraindications;
 }

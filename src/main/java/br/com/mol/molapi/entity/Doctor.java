@@ -1,6 +1,6 @@
 package br.com.mol.molapi.entity;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,5 +36,5 @@ public class Doctor extends User {
 	private String crmFile;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "doctor", orphanRemoval = true)
-	private List<Prescription> precriptions;
+	private Set<Prescription> precriptions;
 }

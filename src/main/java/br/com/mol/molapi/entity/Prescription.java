@@ -1,20 +1,20 @@
 package br.com.mol.molapi.entity;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Data;
 
@@ -23,8 +23,9 @@ import lombok.Data;
 public class Prescription {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@Column(length = 36)
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	private String id;
 	
 	@Column(length = 200)
 	private String observation;
@@ -40,5 +41,5 @@ public class Prescription {
 	private Doctor doctor;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, orphanRemoval = true)
-	private List<PrescriptionItem> prescriptonItems;
+	private Set<PrescriptionItem> prescriptonItems;
 }

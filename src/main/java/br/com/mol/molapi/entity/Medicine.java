@@ -1,19 +1,23 @@
 package br.com.mol.molapi.entity;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import br.com.mol.molapi.entity.enums.IntendedFor;
 import br.com.mol.molapi.entity.enums.PrescriptionRestriction;
@@ -26,17 +30,20 @@ import lombok.Data;
 public class Medicine {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@Column(length = 36)
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	private String id;
 	
 	@Column(length = 80)
 	private String companyName;
 	
-	//ActivePrincible oneToMany
+	@ManyToMany(fetch = FetchType.EAGER)
+	private Set<ActivePrincible> activePrincible;
 	
 	private Long recordNumber;
 	
-	//TherapeuticalClass oneToOne
+	@ManyToOne(fetch = FetchType.EAGER)
+	private TherapeuticalClass therapeuticalClass; 
 	
 	@Temporal(value = TemporalType.DATE)
 	private Date recordPublication;
@@ -53,11 +60,14 @@ public class Medicine {
 	
 	private String comercialName;
 	
-	//PharmaceuticalForm oneToMany
+	@ManyToMany(fetch = FetchType.EAGER)
+	private Set<PharmaceuticalForm> pharmaceuticalForm;
 	
-	//RegulatoryCategory oneToOne
+	@ManyToOne(fetch = FetchType.EAGER)
+	private RegulatoryCategory regulatoryCategory;
 	
-	//ATC oneToOne
+	@ManyToOne(fetch = FetchType.EAGER)
+	private ATC atc;
 	
 	@Enumerated(EnumType.STRING)
 	private Tarja tarja;
@@ -70,9 +80,10 @@ public class Medicine {
 	
 	private String presentationDiffComplement;
 	
-	//AdministrationForm oneToMany
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, orphanRemoval = true)
+	private Set<AdministrationForm> administrationForm;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = true)
 	private Medicine medicineOfReference;
 	
