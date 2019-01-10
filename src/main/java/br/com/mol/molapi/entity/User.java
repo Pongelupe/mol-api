@@ -11,6 +11,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import br.com.mol.molapi.entity.enums.Gender;
 import lombok.Data;
 
@@ -20,6 +22,7 @@ public abstract class User {
 
 	@Id
 	@Column(length = 36)
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
 
 	@NotNull
