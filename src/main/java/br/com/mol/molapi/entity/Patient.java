@@ -14,7 +14,11 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Patient extends User {
-	
+
+	public Patient(User user) {
+		super(user);
+	}
+
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "patient", orphanRemoval = true)
 	private Set<Contraindication> contraindications;
 }

@@ -11,6 +11,7 @@ import com.jayway.jsonpath.ReadContext;
 
 import br.com.mol.molapi.payloads.ReportPayload;
 import br.com.mol.molapi.utils.JsonPathReader;
+import br.com.mol.molapi.validators.enums.ValidatorsEnum;
 
 @Component
 public class ReportValidator extends BaseValidator<ReportPayload> {
@@ -23,7 +24,7 @@ public class ReportValidator extends BaseValidator<ReportPayload> {
 	public void validate(Errors errors) {
 		String json = target.getJson();
 		if (StringUtils.isBlank(json)) {
-			errors.rejectValue("json", "json is missing!");
+			errors.rejectValue("json", ValidatorsEnum.MISSING_FIELD.getFormattedMessage("json"));
 		} else {
 			validateRequiredFields(json, errors);
 		}
