@@ -38,7 +38,7 @@ public class User {
 	private String name;
 
 	@NotNull
-	@Column(length = 36)
+	@Column(length = 60)
 	private String password;
 
 	@Column(length = 1)

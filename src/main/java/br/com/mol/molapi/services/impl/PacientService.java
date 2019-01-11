@@ -1,5 +1,7 @@
 package br.com.mol.molapi.services.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,11 @@ public class PacientService implements IPatientService {
 		Patient patient = new Patient(userManager.prepareNewUser(userRegisterDTO));
 		
 		return patientRepository.save(patient).getId();
+	}
+
+	@Override
+	public Optional<Patient> findById(String idPatient) {
+		return patientRepository.findById(idPatient);
 	}
 
 }
