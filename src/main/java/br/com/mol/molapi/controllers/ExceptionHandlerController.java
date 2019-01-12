@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.com.mol.molapi.exceptions.UserEmailException;
+import br.com.mol.molapi.exceptions.UserEmailExceptionResponse;
 import br.com.mol.molapi.utils.ErrorDetails;
 import net.sf.jasperreports.engine.JRException;
 
@@ -38,5 +40,12 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), Arrays.asList(ex.getMessage()),
 				request.getDescription(true));
 		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<UserEmailExceptionResponse> userEmailException(UserEmailException ex, 
+			WebRequest request) {
+		return new ResponseEntity<UserEmailExceptionResponse>(
+				new UserEmailExceptionResponse(ex.getMessage()), HttpStatus.BAD_REQUEST);
 	}
 }

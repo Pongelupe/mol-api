@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @MappedSuperclass
 @Data
 @NoArgsConstructor
-public class User {
+public abstract class User {
 
 	@Id
 	@Column(length = 36)
