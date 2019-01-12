@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class Patient extends User {
 
 	public Patient(User user) {

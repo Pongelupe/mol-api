@@ -1,9 +1,11 @@
 package br.com.mol.molapi.managers.impl;
 
 import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import br.com.mol.molapi.dtos.UserRegisterDTO;
@@ -17,16 +19,14 @@ public class UserManager implements IUserManager {
 	private PasswordEncoder passwordEncoder;
 
 	@Override
-	public User prepareNewUser(UserRegisterDTO userRegisterDTO) {
-		User user = new User();
+	public User prepareNewUser(User user, UserRegisterDTO userRegisterDTO) {
+		BeanUtils.copyProperties(userRegisterDTO, user);
+		
 		user.setCreatedAt(new Date());
 		user.setUpdatedAt(new Date());
-		user.setName(userRegisterDTO.getName());
-		user.setEmail(userRegisterDTO.getEmail());
-		user.setBirthDate(userRegisterDTO.getBirthDate());
-		user.setGender(userRegisterDTO.getGender());
-		user.setCpf(userRegisterDTO.getCpf());
+		user.setPassword(userRegisterDTO.getPassword().orElseGet(() -> UUID.randomUUID().toString()));
 		user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword().orElseGet(user::getName)));
+		
 		boolean isActive = userRegisterDTO.getPassword().isPresent();
 		user.setActive(isActive);
 		user.setResetPassword(!isActive);

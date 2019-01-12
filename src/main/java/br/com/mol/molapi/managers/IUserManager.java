@@ -5,6 +5,6 @@ import br.com.mol.molapi.entity.User;
 
 public interface IUserManager {
 	
-	User prepareNewUser(UserRegisterDTO userRegisterDTO);
+	User prepareNewUser(User user, UserRegisterDTO userRegisterDTO);
 
 }
