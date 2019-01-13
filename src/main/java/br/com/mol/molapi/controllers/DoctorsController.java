@@ -28,7 +28,7 @@ public class DoctorsController {
 	@PostMapping
 	public ResponseEntity<String> registerDoctor(
 			@RequestBody @Valid DoctorRegisterDTO doctorRegisterDTO) throws UserEmailException {
-		return new ResponseEntity<String>(doctorService
+		return new ResponseEntity<>(doctorService
 				.saveDoctor(doctorRegisterDTO), HttpStatus.CREATED);
 	}
 	

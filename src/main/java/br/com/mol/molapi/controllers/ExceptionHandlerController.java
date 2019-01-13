@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.com.mol.molapi.exceptions.LoginInvalidException;
 import br.com.mol.molapi.exceptions.UserEmailException;
 import br.com.mol.molapi.exceptions.UserEmailExceptionResponse;
 import br.com.mol.molapi.utils.ErrorDetails;
@@ -51,11 +52,16 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 				request.getDescription(true));
 		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
-	
-	@ExceptionHandler
-	public ResponseEntity<UserEmailExceptionResponse> userEmailException(UserEmailException ex, 
-			WebRequest request) {
-		return new ResponseEntity<UserEmailExceptionResponse>(
-				new UserEmailExceptionResponse(ex.getMessage()), HttpStatus.BAD_REQUEST);
+
+	@ExceptionHandler(LoginInvalidException.class)
+	public ResponseEntity<ErrorDetails> loginException(LoginInvalidException ex, WebRequest request) {
+		return new ResponseEntity<>(
+				new ErrorDetails(new Date(), Arrays.asList(ex.getMessage()), request.getDescription(true)),
+				HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(UserEmailException.class)
+	public ResponseEntity<UserEmailExceptionResponse> userEmailException(UserEmailException ex, WebRequest request) {
+		return new ResponseEntity<>(new UserEmailExceptionResponse(ex.getMessage()), HttpStatus.BAD_REQUEST);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import br.com.mol.molapi.entity.enums.Gender;
 import lombok.Data;
 
 @Data
@@ -15,7 +16,7 @@ public class UserRegisterDTO {
 	private String cpf;
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date birthDate;
-	private String gender;
+	private Gender gender;
 	private Optional<String> password = Optional.empty();
 
 	void setPassword(String password) {
