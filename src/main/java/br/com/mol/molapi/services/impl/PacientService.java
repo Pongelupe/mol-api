@@ -1,5 +1,6 @@
 package br.com.mol.molapi.services.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class PacientService implements IPatientService {
 
 	@Autowired
 	PatientRepository patientRepository;
-	
+
 	@Autowired
 	UserManager userManager;
 
@@ -24,13 +25,18 @@ public class PacientService implements IPatientService {
 	public String add(UserRegisterDTO userRegisterDTO) {
 		Patient patient = new Patient();
 		patient = (Patient) userManager.prepareNewUser(patient, userRegisterDTO);
-		
+
 		return patientRepository.save(patient).getId();
 	}
 
 	@Override
 	public Optional<Patient> findById(String idPatient) {
 		return patientRepository.findById(idPatient);
+	}
+
+	@Override
+	public List<Patient> findAll() {
+		return patientRepository.findAll();
 	}
 
 }

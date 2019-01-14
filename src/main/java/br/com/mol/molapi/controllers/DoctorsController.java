@@ -1,5 +1,8 @@
 package br.com.mol.molapi.controllers;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.mol.molapi.dtos.DoctorDTO;
 import br.com.mol.molapi.dtos.DoctorRegisterDTO;
+import br.com.mol.molapi.dtos.UserDTO;
+import br.com.mol.molapi.entity.Doctor;
 import br.com.mol.molapi.exceptions.UserEmailException;
 import br.com.mol.molapi.services.impl.DoctorService;
 
@@ -35,6 +40,12 @@ public class DoctorsController {
 	
 	@GetMapping("/{email}")
 	public ResponseEntity<DoctorDTO> getDoctor(@PathVariable String email) throws UserEmailException {
-		return new ResponseEntity<DoctorDTO>(doctorService.getDoctorByEmail(email), HttpStatus.OK);
+		return new ResponseEntity<>(doctorService.getDoctorByEmail(email), HttpStatus.OK);
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<UserDTO>> getAllDoctors() {
+		List<Doctor> doctors = doctorService.findAll();
+		return ResponseEntity.ok(doctors.stream().map(UserDTO::new).collect(Collectors.toList()));
 	}
 }

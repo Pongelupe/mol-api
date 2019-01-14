@@ -1,6 +1,8 @@
 package br.com.mol.molapi.controllers;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.mol.molapi.dtos.UserDTO;
 import br.com.mol.molapi.dtos.UserRegisterDTO;
 import br.com.mol.molapi.entity.Patient;
 import br.com.mol.molapi.services.IPatientService;
@@ -45,6 +48,12 @@ public class PatientController {
 	public ResponseEntity<Patient> findPatient(@PathVariable String idPatient) {
 		Optional<Patient> patient = patientService.findById(idPatient);
 		return ResponseEntity.ok(patient.orElseThrow(() -> new EntityNotFoundException("Patient")));
+	}
+
+	@GetMapping
+	public ResponseEntity<List<UserDTO>> findAllPatients() {
+		List<Patient> patients = patientService.findAll();
+		return ResponseEntity.ok(patients.stream().map(UserDTO::new).collect(Collectors.toList()));
 	}
 
 }
