@@ -7,12 +7,14 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.mol.molapi.dtos.DoctorDTO;
 import br.com.mol.molapi.dtos.DoctorRegisterDTO;
 import br.com.mol.molapi.entity.Doctor;
 import br.com.mol.molapi.entity.User;
 import br.com.mol.molapi.exceptions.UserEmailException;
 import br.com.mol.molapi.managers.impl.UserManager;
 import br.com.mol.molapi.repositories.DoctorRepository;
+import br.com.mol.molapi.utils.DTOConverter;
 
 @Service
 public class DoctorService {
@@ -24,7 +26,7 @@ public class DoctorService {
 	private UserManager userManager;
 
 	public String saveDoctor(DoctorRegisterDTO doctorRegisterDTO) throws UserEmailException {
-		if (getDoctorByEmail(doctorRegisterDTO.getEmail()).isPresent())
+		if (doctorExistsByEmail(doctorRegisterDTO.getEmail()))
 			throw new UserEmailException("Doctor with email: " + doctorRegisterDTO.getEmail() + " already exists.");
 
 		Doctor doctor = new Doctor();
@@ -37,7 +39,19 @@ public class DoctorService {
 		return doctorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Doctor not found"));
 	}
 
-	public Optional<User> getDoctorByEmail(String email) {
-		return doctorRepository.findByEmail(email);
+	public DoctorDTO getDoctorByEmail(String email) throws UserEmailException {
+		Optional<User> doctorOptional = doctorRepository.findByEmail(email);
+		if(doctorOptional.isPresent()) {
+			Doctor doctor = (Doctor) doctorOptional.get();
+			DoctorDTO doctorDTO = new DoctorDTO();
+			DTOConverter.mapPropertiesTo(doctor, doctorDTO);
+			return doctorDTO;
+		} else {
+			throw new UserEmailException("Doctor with email: " + email + " doesnt exists.");
+		}
+	}
+	
+	public Boolean doctorExistsByEmail(String email) {
+		return doctorRepository.existsByEmail(email);
 	}
 }
