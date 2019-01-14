@@ -3,7 +3,6 @@ package br.com.mol.molapi.managers.impl;
 import java.util.Date;
 import java.util.UUID;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
