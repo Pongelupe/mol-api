@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.mol.molapi.dtos.UserRegisterDTO;
 import br.com.mol.molapi.entity.User;
+import br.com.mol.molapi.entity.enums.Gender;
 import br.com.mol.molapi.managers.IUserManager;
 
 @Component
@@ -22,6 +23,7 @@ public class UserManager implements IUserManager {
 	public User prepareNewUser(User user, UserRegisterDTO userRegisterDTO) {
 		BeanUtils.copyProperties(userRegisterDTO, user);
 		
+		user.setGender(Gender.valueOf(userRegisterDTO.getGender()));
 		user.setCreatedAt(new Date());
 		user.setUpdatedAt(new Date());
 		user.setPassword(userRegisterDTO.getPassword().orElseGet(() -> UUID.randomUUID().toString()));
