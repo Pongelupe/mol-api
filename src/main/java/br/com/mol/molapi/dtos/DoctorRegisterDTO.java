@@ -24,4 +24,9 @@ public class DoctorRegisterDTO extends UserRegisterDTO {
 	@NotBlank(message = "Doctor crm is required.")
 	@Size(max = 30, message = "Doctor crm cant have more than 30 characters.")
 	private String crm;
+
+	@NotBlank(message = "Doctor digitalSignature is required.")
+	private String digitalSignatureBase64;
+	
+	private String phone;
 }

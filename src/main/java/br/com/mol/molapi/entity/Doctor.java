@@ -8,7 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import br.com.mol.molapi.entity.enums.State;
 import lombok.Data;
@@ -33,8 +35,10 @@ public class Doctor extends User {
 	private String crm;
 
 	@Column
-	private String crmFile;
-	
+	@NotNull
+	@Lob
+	private byte[] digitalSignature;
+
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "doctor", orphanRemoval = true)
 	private Set<Prescription> precriptions;
 }
