@@ -23,10 +23,13 @@ public class PrescriptionItem {
 	private Double quantity;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(updatable = false, nullable = false)
+	@JoinColumn(updatable = false, nullable = true)
 	private Medicine medicine;
+	
+	@Column(length = 200)
+	private String description;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(updatable = false, nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(updatable = false, nullable = true)
 	private Prescription prescription;
 }

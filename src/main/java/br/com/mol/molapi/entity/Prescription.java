@@ -40,6 +40,6 @@ public class Prescription {
 	@JoinColumn(updatable = false, nullable = false)
 	private Doctor doctor;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, orphanRemoval = true)
 	private Set<PrescriptionItem> prescriptonItems;
 }

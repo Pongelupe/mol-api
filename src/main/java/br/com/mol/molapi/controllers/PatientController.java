@@ -6,6 +6,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,7 +40,7 @@ public class PatientController {
 	@PostMapping
 	public ResponseEntity<String> registerPacient(@RequestBody @Valid UserRegisterDTO userRegisterDTO) {
 		String idPatient = patientService.register(userRegisterDTO);
-		return ResponseEntity.ok(idPatient);
+		return new ResponseEntity<>(idPatient, HttpStatus.CREATED);
 	}
 
 	@GetMapping("{idPatient}")

@@ -1,6 +1,10 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 
+### DATASOURCE ###
+src/main/resources/schema.sql
+src/main/resources/application.properties
+
 ### STS ###
 .apt_generated
 .classpath
