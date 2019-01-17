@@ -17,6 +17,7 @@ public class UserRegisterDTO {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date birthDate;
 	private Gender gender;
+	private String phone;
 	private Optional<String> password = Optional.empty();
 
 	void setPassword(String password) {
