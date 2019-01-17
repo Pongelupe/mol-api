@@ -22,7 +22,7 @@ public class PacientService implements IPatientService {
 	UserManager userManager;
 
 	@Override
-	public String add(UserRegisterDTO userRegisterDTO) {
+	public String register(UserRegisterDTO userRegisterDTO) {
 		Patient patient = new Patient();
 		patient = (Patient) userManager.prepareNewUser(patient, userRegisterDTO);
 

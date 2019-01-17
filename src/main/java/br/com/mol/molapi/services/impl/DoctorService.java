@@ -1,6 +1,6 @@
 package br.com.mol.molapi.services.impl;
 
-import java.util.List;
+import java.util.Base64;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -12,6 +12,7 @@ import br.com.mol.molapi.dtos.DoctorDTO;
 import br.com.mol.molapi.dtos.DoctorRegisterDTO;
 import br.com.mol.molapi.entity.Doctor;
 import br.com.mol.molapi.entity.User;
+import br.com.mol.molapi.entity.enums.State;
 import br.com.mol.molapi.exceptions.UserEmailException;
 import br.com.mol.molapi.managers.impl.UserManager;
 import br.com.mol.molapi.repositories.DoctorRepository;
@@ -32,6 +33,8 @@ public class DoctorService {
 
 		Doctor doctor = new Doctor();
 		doctor = (Doctor) userManager.prepareNewUser(doctor, doctorRegisterDTO);
+		doctor.setState(State.valueOf(doctorRegisterDTO.getState()));
+		doctor.setDigitalSignature(Base64.getDecoder().decode(doctorRegisterDTO.getDigitalSignatureBase64()));
 
 		return doctorRepository.save(doctor).getId();
 	}
@@ -56,7 +59,4 @@ public class DoctorService {
 		return doctorRepository.existsByEmail(email);
 	}
 
-	public List<Doctor> findAll() {
-		return doctorRepository.findAll();
-	}
 }

@@ -17,10 +17,10 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 public class Patient extends User {
 
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "patient", orphanRemoval = true)
+	private Set<Contraindication> contraindications;
+
 	public Patient(User user) {
 		super(user);
 	}
-
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "patient", orphanRemoval = true)
-	private Set<Contraindication> contraindications;
 }
