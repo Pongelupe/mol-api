@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.mol.molapi.dtos.UserDTO;
-import br.com.mol.molapi.dtos.UserRegisterDTO;
+import br.com.mol.molapi.dtos.user.UserDTO;
+import br.com.mol.molapi.dtos.user.UserRegisterDTO;
 import br.com.mol.molapi.entity.Patient;
 import br.com.mol.molapi.services.IPatientService;
 import br.com.mol.molapi.validators.UserRegisterValidator;

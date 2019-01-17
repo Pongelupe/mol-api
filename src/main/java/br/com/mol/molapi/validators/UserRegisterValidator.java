@@ -3,7 +3,7 @@ package br.com.mol.molapi.validators;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
-import br.com.mol.molapi.dtos.UserRegisterDTO;
+import br.com.mol.molapi.dtos.user.UserRegisterDTO;
 import br.com.mol.molapi.validators.enums.ValidatorsEnum;
 
 @Component

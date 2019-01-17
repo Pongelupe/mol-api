@@ -8,8 +8,8 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.mol.molapi.dtos.DoctorDTO;
-import br.com.mol.molapi.dtos.DoctorRegisterDTO;
+import br.com.mol.molapi.dtos.user.DoctorDTO;
+import br.com.mol.molapi.dtos.user.DoctorRegisterDTO;
 import br.com.mol.molapi.entity.Doctor;
 import br.com.mol.molapi.entity.User;
 import br.com.mol.molapi.entity.enums.State;

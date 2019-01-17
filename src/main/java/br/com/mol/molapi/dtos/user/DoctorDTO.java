@@ -1,4 +1,4 @@
-package br.com.mol.molapi.dtos;
+package br.com.mol.molapi.dtos.user;
 
 import br.com.mol.molapi.entity.enums.State;
 import lombok.Data;

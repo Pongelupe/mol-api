@@ -1,4 +1,4 @@
-package br.com.mol.molapi.dtos;
+package br.com.mol.molapi.dtos.user;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

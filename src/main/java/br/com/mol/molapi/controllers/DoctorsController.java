@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.mol.molapi.dtos.DoctorDTO;
-import br.com.mol.molapi.dtos.DoctorRegisterDTO;
+import br.com.mol.molapi.dtos.user.DoctorDTO;
+import br.com.mol.molapi.dtos.user.DoctorRegisterDTO;
 import br.com.mol.molapi.exceptions.UserEmailException;
 import br.com.mol.molapi.services.impl.DoctorService;
 

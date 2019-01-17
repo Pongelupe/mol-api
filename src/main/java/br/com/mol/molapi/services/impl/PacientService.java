@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.mol.molapi.dtos.UserRegisterDTO;
+import br.com.mol.molapi.dtos.user.UserRegisterDTO;
 import br.com.mol.molapi.entity.Patient;
 import br.com.mol.molapi.managers.impl.UserManager;
 import br.com.mol.molapi.repositories.PatientRepository;

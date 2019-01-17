@@ -1,4 +1,4 @@
-package br.com.mol.molapi.dtos;
+package br.com.mol.molapi.dtos.user;
 
 import java.util.Date;
 import java.util.Optional;

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import br.com.mol.molapi.dtos.UserRegisterDTO;
+import br.com.mol.molapi.dtos.user.UserRegisterDTO;
 import br.com.mol.molapi.entity.User;
 import br.com.mol.molapi.managers.IUserManager;
 import br.com.mol.molapi.utils.DTOConverter;
