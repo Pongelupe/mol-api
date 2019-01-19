@@ -12,6 +12,8 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.mol.molapi.entity.enums.State;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,7 +40,8 @@ public class Doctor extends User {
 	@NotNull
 	@Lob
 	private byte[] digitalSignature;
-
+	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "doctor", orphanRemoval = true)
 	private Set<Prescription> precriptions;
 }

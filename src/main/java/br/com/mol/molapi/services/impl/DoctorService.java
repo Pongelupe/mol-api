@@ -58,5 +58,8 @@ public class DoctorService {
 	public Boolean existsByEmail(String email) {
 		return doctorRepository.existsByEmail(email);
 	}
-
+	
+	public Boolean existsById(String id) {
+		return doctorRepository.existsById(id);
+	}
 }

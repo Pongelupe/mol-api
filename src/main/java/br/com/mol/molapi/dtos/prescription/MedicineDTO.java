@@ -18,38 +18,21 @@ import lombok.Data;
 public class MedicineDTO {
 
 	private String id;
-
 	private String companyName;
-
 	private Set<ActivePrincible> activePrincible;
-	
 	private Long recordNumber;
-
 	private TherapeuticalClass therapeuticalClass; 
-
 	private Date recordPublication;
-
 	private PrescriptionRestriction prescriptionRestriction;
-	
 	private Boolean monodrug;
-
 	private RecordStatus recordStatus;
-	
 	private Boolean fractionable;
-	
 	private String comercialName;
-
 	private Set<PharmaceuticalForm> pharmaceuticalForm;
-
 	private RegulatoryCategory regulatoryCategory;
-
 	private Tarja tarja;
-	
 	private IntendedFor intendedFor;
-	
 	private String preservation;
-	
 	private Integer expiration;
-
 	private Set<AdministrationForm> administrationForm;
 }

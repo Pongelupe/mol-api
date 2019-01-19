@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.com.mol.molapi.exceptions.GenericIdException;
+import br.com.mol.molapi.exceptions.GenericIdExceptionResponse;
 import br.com.mol.molapi.exceptions.LoginInvalidException;
 import br.com.mol.molapi.exceptions.UserEmailException;
 import br.com.mol.molapi.exceptions.UserEmailExceptionResponse;
@@ -63,5 +65,10 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(UserEmailException.class)
 	public ResponseEntity<UserEmailExceptionResponse> userEmailException(UserEmailException ex, WebRequest request) {
 		return new ResponseEntity<>(new UserEmailExceptionResponse(ex.getMessage()), HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(GenericIdException.class)
+	public ResponseEntity<GenericIdExceptionResponse> genericIdException(GenericIdException ex, WebRequest request) {
+		return new ResponseEntity<>(new GenericIdExceptionResponse(ex.getMessage()), HttpStatus.BAD_REQUEST);
 	}
 }

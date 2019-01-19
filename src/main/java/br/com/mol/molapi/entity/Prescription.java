@@ -7,15 +7,18 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import br.com.mol.molapi.entity.enums.PrescriptionType;
 import lombok.Data;
 
 @Entity
@@ -24,6 +27,7 @@ public class Prescription {
 	
 	@Id
 	@Column(length = 36)
+	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
 	
@@ -42,4 +46,11 @@ public class Prescription {
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, orphanRemoval = true)
 	private Set<PrescriptionItem> prescriptonItems;
+	
+	private PrescriptionType prescriptionType;
+	
+	@PrePersist
+	protected void onCreate() {
+		createdAt = new Date();
+	}
 }
