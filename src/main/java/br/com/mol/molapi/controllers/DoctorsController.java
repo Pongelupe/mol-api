@@ -30,11 +30,11 @@ public class DoctorsController {
 	public ResponseEntity<String> registerDoctor(
 			@RequestBody @Valid DoctorRegisterDTO doctorRegisterDTO) throws UserEmailException {
 		return new ResponseEntity<>(doctorService
-				.saveDoctor(doctorRegisterDTO), HttpStatus.CREATED);
+				.register(doctorRegisterDTO), HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/{email}")
 	public ResponseEntity<DoctorDTO> getDoctor(@PathVariable String email) throws UserEmailException {
-		return new ResponseEntity<>(doctorService.getDoctorByEmail(email), HttpStatus.OK);
+		return new ResponseEntity<>(doctorService.findByEmail(email), HttpStatus.OK);
 	}	
 }

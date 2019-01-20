@@ -27,8 +27,8 @@ public class DoctorService {
 	@Autowired
 	private UserManager userManager;
 
-	public String saveDoctor(DoctorRegisterDTO doctorRegisterDTO) throws UserEmailException {
-		if (doctorExistsByEmail(doctorRegisterDTO.getEmail()))
+	public String register(DoctorRegisterDTO doctorRegisterDTO) throws UserEmailException {
+		if (existsByEmail(doctorRegisterDTO.getEmail()))
 			throw new UserEmailException("Doctor with email: " + doctorRegisterDTO.getEmail() + " already exists.");
 
 		Doctor doctor = new Doctor();
@@ -39,11 +39,11 @@ public class DoctorService {
 		return doctorRepository.save(doctor).getId();
 	}
 
-	public Doctor getDoctorById(String id) {
+	public Doctor findById(String id) {
 		return doctorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Doctor not found"));
 	}
 
-	public DoctorDTO getDoctorByEmail(String email) throws UserEmailException {
+	public DoctorDTO findByEmail(String email) throws UserEmailException {
 		Optional<User> doctorOptional = doctorRepository.findByEmail(email);
 		if (doctorOptional.isPresent()) {
 			Doctor doctor = (Doctor) doctorOptional.get();
@@ -55,8 +55,11 @@ public class DoctorService {
 		}
 	}
 
-	public Boolean doctorExistsByEmail(String email) {
+	public Boolean existsByEmail(String email) {
 		return doctorRepository.existsByEmail(email);
 	}
-
+	
+	public Boolean existsById(String id) {
+		return doctorRepository.existsById(id);
+	}
 }
