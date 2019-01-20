@@ -2,7 +2,7 @@ package br.com.mol.molapi.controllers;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -33,8 +34,9 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		BindingResult result = ex.getBindingResult();
-		List<String> errorCodes = result.getAllErrors().stream().map(ObjectError::getCode).collect(Collectors.toList());
-		ErrorDetails errorDetails = new ErrorDetails(new Date(), errorCodes, result.toString());
+		Map<String, String> errorsByField = result.getFieldErrors().stream()
+				.collect(Collectors.toMap(FieldError::getField, ObjectError::getCode));
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), errorsByField, result.toString());
 		return new ResponseEntity<>(errorDetails, status);
 	}
 

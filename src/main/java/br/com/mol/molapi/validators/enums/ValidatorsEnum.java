@@ -2,7 +2,8 @@ package br.com.mol.molapi.validators.enums;
 
 public enum ValidatorsEnum {
 
-	MISSING_FIELD("% is missing!");
+	MISSING_FIELD("% is missing!"),
+	INCORRECT_LENGTH("% length is %");
 
 	private ValidatorsEnum(String message) {
 		this.message = message;
