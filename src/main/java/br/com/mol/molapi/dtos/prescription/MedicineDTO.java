@@ -9,6 +9,7 @@ import br.com.mol.molapi.entity.PharmaceuticalForm;
 import br.com.mol.molapi.entity.RegulatoryCategory;
 import br.com.mol.molapi.entity.TherapeuticalClass;
 import br.com.mol.molapi.entity.enums.IntendedFor;
+import br.com.mol.molapi.entity.enums.MeasureType;
 import br.com.mol.molapi.entity.enums.PrescriptionRestriction;
 import br.com.mol.molapi.entity.enums.RecordStatus;
 import br.com.mol.molapi.entity.enums.Tarja;
@@ -32,6 +33,7 @@ public class MedicineDTO {
 	private RegulatoryCategory regulatoryCategory;
 	private Tarja tarja;
 	private IntendedFor intendedFor;
+	private MeasureType measureType;	
 	private String preservation;
 	private Integer expiration;
 	private Set<AdministrationForm> administrationForm;

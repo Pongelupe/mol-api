@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
 import br.com.mol.molapi.entity.enums.IntendedFor;
+import br.com.mol.molapi.entity.enums.MeasureType;
 import br.com.mol.molapi.entity.enums.PrescriptionRestriction;
 import br.com.mol.molapi.entity.enums.RecordStatus;
 import br.com.mol.molapi.entity.enums.Tarja;
@@ -76,6 +77,10 @@ public class Medicine {
 
 	@Enumerated(EnumType.STRING)
 	private Tarja tarja;
+
+	@Enumerated(EnumType.STRING)
+	@Column(length = 20)
+	private MeasureType measureType;
 
 	private IntendedFor intendedFor;
 

@@ -27,7 +27,7 @@ public class MedicineRepositoryImpl implements IMedicineRepository {
 		Root<Medicine> from = cq.from(Medicine.class);
 
 		cq.select(cb.construct(AutoCompleteDTO.class, from.get("id"), from.get("comercialName")))
-				.where(cb.like(from.get("comercialName"), query));
+				.where(cb.like(from.get("comercialName"), '%' + query + '%'));
 
 		return em.createQuery(cq).setMaxResults(20).getResultList();
 	}
