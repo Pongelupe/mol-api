@@ -1,0 +1,35 @@
+{
+    "doctor": {
+        "email": "pedro@gmail.com",
+        "address": "Avenida Raja Gabaglia nº 1002 - Gutierrez\nCEP: 30441-070- BELO HORIZONTE - MG",
+        "phone": "(31) 3376-7194",
+        "name": "Pedro Pongelupe",
+        "crm": "71584"
+    },
+    "patient": {
+        "name": "Albert Camus"
+    },
+    "medicines": [
+        {
+            "name": "Amoxicina-clavulanato 875/125",
+            "measureType": "mg",
+            "quantity": 14,
+            "description": "Tomar 01 comprimido de 12/12h por 07 dias",
+            "pharmaceuticalForm": "comprimidos"
+        },
+        {
+            "name": "Prednisona 20",
+            "measureType": "mg",
+            "quantity": 14,
+            "description": "Tomar 02 comprimidos por dia por 05 dias",
+            "pharmaceuticalForm": "caixas"
+        },
+        {
+            "name": "Dipirona 500",
+            "measureType": "mg",
+            "quantity": 14,
+            "description": "Tomar 01 comprimido de 6/6h caso dor de cabeça",
+            "pharmaceuticalForm": "caixas"
+        }
+    ]
+}
