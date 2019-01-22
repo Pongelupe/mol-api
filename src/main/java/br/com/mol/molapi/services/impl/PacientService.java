@@ -39,4 +39,9 @@ public class PacientService implements IPatientService {
 		return patientRepository.findAll();
 	}
 
+	@Override
+	public boolean existsById(String id) {
+		return patientRepository.existsById(id);
+	}
+
 }

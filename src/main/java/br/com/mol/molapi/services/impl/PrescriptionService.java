@@ -20,6 +20,7 @@ import br.com.mol.molapi.exceptions.GenericIdException;
 import br.com.mol.molapi.repositories.PrescriptionRepository;
 import br.com.mol.molapi.repositories.dao.PrescriptionItemRepository;
 import br.com.mol.molapi.services.IMedicineService;
+import br.com.mol.molapi.services.IPatientService;
 
 @Service
 public class PrescriptionService {
@@ -31,10 +32,13 @@ public class PrescriptionService {
 	private PrescriptionItemRepository prescriptionItemRepository;
 
 	@Autowired
-	DoctorService doctorService;
+	private DoctorService doctorService;
 
 	@Autowired
-	IMedicineService medicineService;
+	private IPatientService pacientService;
+
+	@Autowired
+	private IMedicineService medicineService;
 
 	@Autowired
 	private ObjectMapper mapper;
@@ -44,10 +48,19 @@ public class PrescriptionService {
 			throw new GenericIdException("Prescription with id: " + prescriptionDTO.getId() + "already exists.");
 		}
 
+		operateWithPatient(prescriptionDTO);
 		Prescription prescription = mapper.convertValue(prescriptionDTO, Prescription.class);
 		persistItensPrescription(prescription.getPrescriptonItems());
 
 		return prescriptionRepository.save(prescription).getId();
+	}
+
+	private void operateWithPatient(PrescriptionDTO prescriptionDTO) {
+		if (StringUtils.isBlank(prescriptionDTO.getId())
+				|| !pacientService.existsById(prescriptionDTO.getId()) && prescriptionDTO.getPatient() != null) {
+			pacientService.register(prescriptionDTO.getPatient());
+		}
+
 	}
 
 	private void persistItensPrescription(Set<PrescriptionItem> prescriptonItems) {
