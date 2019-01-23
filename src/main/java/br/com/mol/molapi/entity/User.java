@@ -59,11 +59,9 @@ public abstract class User {
 
 	@Enumerated(EnumType.STRING)
 	@Column(length = 8)
-	@NotNull
 	private Gender gender;
 
 	@Temporal(value = TemporalType.DATE)
-	@NotNull
 	private Date birthDate;
 
 	@Temporal(value = TemporalType.TIMESTAMP)

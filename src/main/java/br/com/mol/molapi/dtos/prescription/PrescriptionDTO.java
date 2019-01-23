@@ -16,6 +16,6 @@ public class PrescriptionDTO {
 	private String doctorId;
 	private String patientId;
 	private UserRegisterDTO patient;
-	private Set<PrescriptionItemDTO> prescriptonItems;
+	private Set<PrescriptionItemDTO> prescriptionItems;
 	private PrescriptionType prescriptionType;
 }
