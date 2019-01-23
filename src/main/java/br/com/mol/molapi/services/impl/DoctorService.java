@@ -1,10 +1,10 @@
 package br.com.mol.molapi.services.impl;
 
-import java.util.Base64;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +34,8 @@ public class DoctorService {
 		Doctor doctor = new Doctor();
 		doctor = (Doctor) userManager.prepareNewUser(doctor, doctorRegisterDTO);
 		doctor.setState(State.valueOf(doctorRegisterDTO.getState()));
-		doctor.setDigitalSignature(Base64.getDecoder().decode(doctorRegisterDTO.getDigitalSignatureBase64()));
-
+		doctor.setDigitalSignature(Base64.decodeBase64(doctorRegisterDTO.getDigitalSignatureBase64().getBytes()));
+		
 		return doctorRepository.save(doctor).getId();
 	}
 
