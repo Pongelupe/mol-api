@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum Reports {
-	DEFAULT("/reports/default_prescription.jasper", Arrays.asList("pacient", "pacient.age", "doctor", "doctor.email"));
+	DEFAULT("/reports/default_prescription.jasper", Arrays.asList("patient", "patient.name", "doctor.email",
+			"doctor.address", "doctor.phone", "doctor.crm", "medicines"));
 
 	private final String path;
 	private final List<String> requiredFields;
