@@ -1,6 +1,5 @@
 package br.com.mol.molapi.services;
 
-import java.util.List;
 import java.util.Optional;
 
 import br.com.mol.molapi.dtos.user.UserRegisterDTO;
@@ -12,8 +11,8 @@ public interface IPatientService {
 
 	Optional<Patient> findById(String idPatient);
 
-	List<Patient> findAll();
-
 	boolean existsById(String id);
+
+	Optional<Patient> findByCpf(String cpf);
 
 }

@@ -44,8 +44,14 @@ public class PatientController {
 	}
 
 	@GetMapping("{idPatient}")
-	public ResponseEntity<UserDTO> findPatient(@PathVariable String idPatient) {
+	public ResponseEntity<UserDTO> findPatientById(@PathVariable String idPatient) {
 		Optional<Patient> patient = patientService.findById(idPatient);
+		return ResponseEntity.ok(new UserDTO(patient.orElseThrow(() -> new EntityNotFoundException("Patient"))));
+	}
+
+	@GetMapping("cpf/{cpf}")
+	public ResponseEntity<UserDTO> findPatientByCpf(@PathVariable String cpf) {
+		Optional<Patient> patient = patientService.findByCpf(cpf);
 		return ResponseEntity.ok(new UserDTO(patient.orElseThrow(() -> new EntityNotFoundException("Patient"))));
 	}
 

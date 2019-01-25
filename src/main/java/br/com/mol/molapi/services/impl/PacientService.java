@@ -1,6 +1,5 @@
 package br.com.mol.molapi.services.impl;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +33,13 @@ public class PacientService implements IPatientService {
 		return patientRepository.findById(idPatient);
 	}
 
+	
 	@Override
-	public List<Patient> findAll() {
-		return patientRepository.findAll();
+	public Optional<Patient> findByCpf(String cpf) {
+		return patientRepository.findByCpf(cpf);
 	}
-
+		
+	
 	@Override
 	public boolean existsById(String id) {
 		return patientRepository.existsById(id);
