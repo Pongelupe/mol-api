@@ -2,7 +2,6 @@ package br.com.mol.molapi.managers.impl;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +25,6 @@ public class UserManager implements IUserManager {
 
 		user.setCreatedAt(new Date());
 		user.setUpdatedAt(new Date());
-		user.setPassword(optionalPassword.orElseGet(() -> UUID.randomUUID().toString()));
 		user.setPassword(passwordEncoder.encode(optionalPassword.orElseGet(user::getName)));
 
 		boolean isActive = optionalPassword.isPresent();
