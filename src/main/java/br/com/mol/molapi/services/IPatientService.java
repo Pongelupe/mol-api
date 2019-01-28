@@ -7,7 +7,9 @@ import br.com.mol.molapi.entity.Patient;
 
 public interface IPatientService {
 
-	String register(UserRegisterDTO userRegisterDTO);
+	String registerGetId(UserRegisterDTO userRegisterDTO);
+
+	Patient registerPatient(UserRegisterDTO userRegisterDTO);
 
 	Optional<Patient> findById(String idPatient);
 

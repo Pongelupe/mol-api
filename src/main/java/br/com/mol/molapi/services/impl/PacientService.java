@@ -21,11 +21,20 @@ public class PacientService implements IPatientService {
 	UserManager userManager;
 
 	@Override
-	public String register(UserRegisterDTO userRegisterDTO) {
+	public String registerGetId(UserRegisterDTO userRegisterDTO) {
+		return this.register(userRegisterDTO).getId();
+	}
+
+	@Override
+	public Patient registerPatient(UserRegisterDTO userRegisterDTO) {
+		return register(userRegisterDTO);
+	}
+
+	private Patient register(UserRegisterDTO userRegisterDTO) {
 		Patient patient = new Patient();
 		patient = (Patient) userManager.prepareNewUser(patient, userRegisterDTO);
 
-		return patientRepository.save(patient).getId();
+		return patientRepository.save(patient);
 	}
 
 	@Override
@@ -33,13 +42,11 @@ public class PacientService implements IPatientService {
 		return patientRepository.findById(idPatient);
 	}
 
-	
 	@Override
 	public Optional<Patient> findByCpf(String cpf) {
 		return patientRepository.findByCpf(cpf);
 	}
-		
-	
+
 	@Override
 	public boolean existsById(String id) {
 		return patientRepository.existsById(id);

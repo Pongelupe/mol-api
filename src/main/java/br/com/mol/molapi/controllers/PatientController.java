@@ -39,7 +39,7 @@ public class PatientController {
 
 	@PostMapping
 	public ResponseEntity<String> registerPacient(@RequestBody @Valid UserRegisterDTO userRegisterDTO) {
-		String idPatient = patientService.register(userRegisterDTO);
+		String idPatient = patientService.registerGetId(userRegisterDTO);
 		return new ResponseEntity<>(idPatient, HttpStatus.CREATED);
 	}
 

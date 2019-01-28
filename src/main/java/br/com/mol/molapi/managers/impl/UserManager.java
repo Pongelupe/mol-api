@@ -1,6 +1,7 @@
 package br.com.mol.molapi.managers.impl;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,14 @@ public class UserManager implements IUserManager {
 	@Override
 	public User prepareNewUser(User user, UserRegisterDTO userRegisterDTO) {
 		DTOConverter.mapPropertiesTo(userRegisterDTO, user);
-		
+		Optional<String> optionalPassword = Optional.ofNullable(userRegisterDTO.getPassword());
+
 		user.setCreatedAt(new Date());
 		user.setUpdatedAt(new Date());
-		user.setPassword(userRegisterDTO.getPassword().orElseGet(() -> UUID.randomUUID().toString()));
-		user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword().orElseGet(user::getName)));
-		
-		boolean isActive = userRegisterDTO.getPassword().isPresent();
+		user.setPassword(optionalPassword.orElseGet(() -> UUID.randomUUID().toString()));
+		user.setPassword(passwordEncoder.encode(optionalPassword.orElseGet(user::getName)));
+
+		boolean isActive = optionalPassword.isPresent();
 		user.setActive(isActive);
 		user.setResetPassword(!isActive);
 		user.setConfirmed(false);

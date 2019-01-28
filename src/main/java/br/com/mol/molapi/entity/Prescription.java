@@ -47,6 +47,13 @@ public class Prescription {
 	@Column(name = "doctor_id", insertable = false, updatable = false)
 	private String doctorId;
 
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@JoinColumn(name = "patient_id", updatable = false, insertable = false, nullable = false)
+	private Patient patient;
+
+	@Column(name = "patient_id", insertable = true, updatable = false)
+	private String patientId;
+
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, orphanRemoval = true)
 	private Set<PrescriptionItem> prescriptonItems;
 

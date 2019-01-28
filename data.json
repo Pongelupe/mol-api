@@ -31,5 +31,6 @@
             "description": "Tomar 01 comprimido de 6/6h caso dor de cabeça",
             "pharmaceuticalForm": "caixas"
         }
-    ]
+    ],
+    "locale": "belo horizonte"
 }

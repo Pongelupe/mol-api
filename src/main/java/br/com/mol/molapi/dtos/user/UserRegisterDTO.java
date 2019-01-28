@@ -1,7 +1,6 @@
 package br.com.mol.molapi.dtos.user;
 
 import java.util.Date;
-import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -18,9 +17,6 @@ public class UserRegisterDTO {
 	private Date birthDate;
 	private Gender gender;
 	private String phone;
-	private Optional<String> password = Optional.empty();
+	private String password;
 
-	void setPassword(String password) {
-		this.password = Optional.ofNullable(password);
-	}
 }

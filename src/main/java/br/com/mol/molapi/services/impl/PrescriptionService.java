@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.com.mol.molapi.dtos.prescription.PrescriptionDTO;
 import br.com.mol.molapi.entity.Doctor;
 import br.com.mol.molapi.entity.Medicine;
+import br.com.mol.molapi.entity.Patient;
 import br.com.mol.molapi.entity.Prescription;
 import br.com.mol.molapi.entity.PrescriptionItem;
 import br.com.mol.molapi.exceptions.GenericIdException;
@@ -48,17 +49,19 @@ public class PrescriptionService {
 			throw new GenericIdException("Prescription with id: " + prescriptionDTO.getId() + "already exists.");
 		}
 
-		operateWithPatient(prescriptionDTO);
+		Patient patient = insertRetrivePatient(prescriptionDTO);
 		Prescription prescription = mapper.convertValue(prescriptionDTO, Prescription.class);
+		prescription.setPatient(patient);
 		persistItensPrescription(prescription.getPrescriptonItems());
 
 		return prescriptionRepository.save(prescription).getId();
 	}
 
-	private void operateWithPatient(PrescriptionDTO prescriptionDTO) {
-		if (StringUtils.isBlank(prescriptionDTO.getId())
-				|| !pacientService.existsById(prescriptionDTO.getId()) && prescriptionDTO.getPatient() != null) {
-			pacientService.register(prescriptionDTO.getPatient());
+	private Patient insertRetrivePatient(PrescriptionDTO prescriptionDTO) {
+		if ((prescriptionDTO.getPatientId() != null && !pacientService.existsById(prescriptionDTO.getPatientId())) || prescriptionDTO.getPatient() != null) {
+			return pacientService.registerPatient(prescriptionDTO.getPatient());
+		} else {
+			return pacientService.findById(prescriptionDTO.getPatientId()).orElseThrow(EntityNotFoundException::new);
 		}
 
 	}
