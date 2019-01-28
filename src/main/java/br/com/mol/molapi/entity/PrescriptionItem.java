@@ -10,10 +10,13 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
 
 @Entity
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PrescriptionItem {
 
 	@Id
@@ -24,7 +27,7 @@ public class PrescriptionItem {
 
 	private Double quantity;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "medicine_id", updatable = false, nullable = true)
 	private Medicine medicine;
 

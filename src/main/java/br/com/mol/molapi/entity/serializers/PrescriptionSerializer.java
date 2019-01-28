@@ -24,11 +24,12 @@ public class PrescriptionSerializer extends JsonSerializer<Prescription> {
 			gen.writeStringField("shelfLife", prescription.getShelfLife().toString());
 
 		gen.writeStringField("doctorId", prescription.getDoctor().getId());
+		gen.writeStringField("patientId", prescription.getPatientId());
 
-		gen.writeArrayFieldStart("prescriptonItems");
+		gen.writeArrayFieldStart("prescriptionItems");
 
-		if (prescription.getPrescriptonItems() != null)
-			for (PrescriptionItem item : prescription.getPrescriptonItems())
+		if (prescription.getPrescriptionItems() != null)
+			for (PrescriptionItem item : prescription.getPrescriptionItems())
 				gen.writeObject(item);
 
 		gen.writeEndArray();

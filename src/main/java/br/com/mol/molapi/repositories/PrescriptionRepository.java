@@ -1,5 +1,6 @@
 package br.com.mol.molapi.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,6 @@ public interface PrescriptionRepository extends JpaRepository<Prescription, Stri
 	Optional<Prescription> findById(String id);
 	
 	boolean existsById(String id);
+
+	List<Prescription> findByPatientId(String patientId);
 }

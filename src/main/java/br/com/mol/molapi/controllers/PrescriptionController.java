@@ -1,5 +1,7 @@
 package br.com.mol.molapi.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,4 +44,11 @@ public class PrescriptionController {
 	public ResponseEntity<PrescriptionDTO> getPrescription(@PathVariable String prescriptionId) {
 		return ResponseEntity.ok(prescriptionService.findById(prescriptionId));
 	}
+	
+	@GetMapping("/patient/{patientId}")
+	public ResponseEntity<List<PrescriptionDTO>> getPrescriptionByPatient(@PathVariable String patientId) {
+		return ResponseEntity.ok(prescriptionService.findByPatient(patientId));
+	}
+	
+	
 }

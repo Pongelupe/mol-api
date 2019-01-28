@@ -1,6 +1,11 @@
 package br.com.mol.molapi.services.impl;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -18,6 +23,7 @@ import br.com.mol.molapi.entity.Patient;
 import br.com.mol.molapi.entity.Prescription;
 import br.com.mol.molapi.entity.PrescriptionItem;
 import br.com.mol.molapi.exceptions.GenericIdException;
+import br.com.mol.molapi.repositories.MedicineRepository;
 import br.com.mol.molapi.repositories.PrescriptionRepository;
 import br.com.mol.molapi.repositories.dao.PrescriptionItemRepository;
 import br.com.mol.molapi.services.IMedicineService;
@@ -31,6 +37,9 @@ public class PrescriptionService {
 
 	@Autowired
 	private PrescriptionItemRepository prescriptionItemRepository;
+
+	@Autowired
+	private MedicineRepository medicineRepository;
 
 	@Autowired
 	private DoctorService doctorService;
@@ -49,16 +58,20 @@ public class PrescriptionService {
 			throw new GenericIdException("Prescription with id: " + prescriptionDTO.getId() + "already exists.");
 		}
 
-		Patient patient = insertRetrivePatient(prescriptionDTO);
 		Prescription prescription = mapper.convertValue(prescriptionDTO, Prescription.class);
+		prescription.setDoctor(doctorService.findById(prescription.getDoctorId()));
+		Patient patient = insertRetrivePatient(prescriptionDTO);
 		prescription.setPatient(patient);
-		persistItensPrescription(prescription.getPrescriptonItems());
+		prescription
+				.setShelfLife(Date.from(LocalDate.now().plusDays(30).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		persistItensPrescription(prescription.getPrescriptionItems());
 
 		return prescriptionRepository.save(prescription).getId();
 	}
 
 	private Patient insertRetrivePatient(PrescriptionDTO prescriptionDTO) {
-		if ((prescriptionDTO.getPatientId() != null && !pacientService.existsById(prescriptionDTO.getPatientId())) || prescriptionDTO.getPatient() != null) {
+		if ((prescriptionDTO.getPatientId() != null && !pacientService.existsById(prescriptionDTO.getPatientId()))
+				|| prescriptionDTO.getPatient() != null) {
 			return pacientService.registerPatient(prescriptionDTO.getPatient());
 		} else {
 			return pacientService.findById(prescriptionDTO.getPatientId()).orElseThrow(EntityNotFoundException::new);
@@ -72,6 +85,8 @@ public class PrescriptionService {
 				if (StringUtils.isBlank(item.getMedicineId()) && item.getMedicine() != null
 						&& StringUtils.isBlank(item.getMedicine().getId())) {
 					item.setMedicineId(insertMedicine(item.getMedicine()));
+				} else {
+					item.setMedicine(medicineRepository.findById(item.getMedicineId()).orElse(null));
 				}
 				item.setId(prescriptionItemRepository.save(item).getId());
 			}
@@ -109,6 +124,12 @@ public class PrescriptionService {
 				.orElseThrow(() -> new EntityNotFoundException("Prescription not found"));
 
 		return mapper.convertValue(prescription, PrescriptionDTO.class);
+	}
+
+	public List<PrescriptionDTO> findByPatient(String patientId) {
+		List<Prescription> prescriptions = prescriptionRepository.findByPatientId(patientId);
+		return prescriptions.stream().map(p -> mapper.convertValue(p, PrescriptionDTO.class))
+				.collect(Collectors.toList());
 	}
 
 	public Boolean existsById(String id) {

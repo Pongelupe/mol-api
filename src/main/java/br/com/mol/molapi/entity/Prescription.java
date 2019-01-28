@@ -18,11 +18,14 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import br.com.mol.molapi.entity.enums.PrescriptionType;
 import lombok.Data;
 
 @Entity
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Prescription {
 
 	@Id
@@ -40,22 +43,22 @@ public class Prescription {
 	@Temporal(value = TemporalType.DATE)
 	private Date shelfLife;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "doctor_id", updatable = false, nullable = false)
 	private Doctor doctor;
 
 	@Column(name = "doctor_id", insertable = false, updatable = false)
 	private String doctorId;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-	@JoinColumn(name = "patient_id", updatable = false, insertable = false, nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "patient_id", updatable = false, insertable = true, nullable = false)
 	private Patient patient;
 
-	@Column(name = "patient_id", insertable = true, updatable = false)
+	@Column(name = "patient_id", insertable = false, updatable = false)
 	private String patientId;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, orphanRemoval = true)
-	private Set<PrescriptionItem> prescriptonItems;
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, orphanRemoval = true)
+	private Set<PrescriptionItem> prescriptionItems;
 
 	private PrescriptionType prescriptionType;
 

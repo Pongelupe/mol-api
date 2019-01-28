@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import br.com.mol.molapi.entity.Prescription;
@@ -23,7 +24,8 @@ public class CustomConfiguration {
 	@Bean
 	public ObjectMapper objectMapper() {
 		ObjectMapper mapper = new ObjectMapper()
-				.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+				.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+				.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 		
 		mapper.registerModule(new SimpleModule()
 				.addSerializer(Prescription.class, new PrescriptionSerializer()));
