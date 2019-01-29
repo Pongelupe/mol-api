@@ -2,6 +2,7 @@ package br.com.mol.molapi.dtos.user;
 
 import java.util.Date;
 
+import br.com.mol.molapi.entity.Address;
 import br.com.mol.molapi.entity.User;
 import br.com.mol.molapi.entity.enums.Gender;
 import br.com.mol.molapi.utils.DTOConverter;
@@ -19,6 +20,7 @@ public class UserDTO {
 	private Gender gender;
 	private String email;
 	private Date birthDate;
+	private Address address;
 	
 	public UserDTO(User user) {
 		DTOConverter.mapPropertiesTo(user, this);

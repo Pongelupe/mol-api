@@ -4,7 +4,8 @@
         "address": "Avenida Raja Gabaglia nº 1002 - Gutierrez\nCEP: 30441-070- BELO HORIZONTE - MG",
         "phone": "(31) 3376-7194",
         "name": "Pedro Pongelupe",
-        "crm": "71584"
+        "crm": "71584",
+        "city": "Belo Horizonte"
     },
     "patient": {
         "name": "Albert Camus"
@@ -15,21 +16,24 @@
             "measureType": "mg",
             "quantity": 14,
             "description": "Tomar 01 comprimido de 12/12h por 07 dias",
-            "pharmaceuticalForm": "comprimidos"
+            "pharmaceuticalForm": "comprimidos",
+            "email": "pedro@gmail.com"
         },
         {
             "name": "Prednisona 20",
             "measureType": "mg",
             "quantity": 14,
             "description": "Tomar 02 comprimidos por dia por 05 dias",
-            "pharmaceuticalForm": "caixas"
+            "pharmaceuticalForm": "caixas",
+            "email": "pedro@gmail.com"
         },
         {
             "name": "Dipirona 500",
             "measureType": "mg",
             "quantity": 14,
             "description": "Tomar 01 comprimido de 6/6h caso dor de cabeça",
-            "pharmaceuticalForm": "caixas"
+            "pharmaceuticalForm": "caixas",
+            "email": "pedro@gmail.com"
         }
     ],
     "locale": "belo horizonte"

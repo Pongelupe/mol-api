@@ -5,8 +5,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
@@ -14,7 +12,6 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.com.mol.molapi.entity.enums.State;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,10 +25,6 @@ public class Doctor extends User {
 
 	@Column(length = 20, unique = true)
 	private String rg;
-
-	@Enumerated(EnumType.STRING)
-	@Column(length = 2)
-	private State state;
 
 	@Column(length = 30, unique = true)
 	private String crm;

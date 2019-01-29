@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import br.com.mol.molapi.entity.Address;
 import br.com.mol.molapi.entity.enums.Gender;
 import lombok.Data;
 
@@ -18,5 +19,6 @@ public class UserRegisterDTO {
 	private Gender gender;
 	private String phone;
 	private String password;
+	private Address address;
 
 }

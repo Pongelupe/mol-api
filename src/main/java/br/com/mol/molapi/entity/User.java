@@ -2,12 +2,16 @@ package br.com.mol.molapi.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -60,6 +64,10 @@ public abstract class User {
 	@Enumerated(EnumType.STRING)
 	@Column(length = 8)
 	private Gender gender;
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "address_id")
+	private Address address;
 
 	@Temporal(value = TemporalType.DATE)
 	private Date birthDate;

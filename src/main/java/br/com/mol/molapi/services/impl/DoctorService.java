@@ -12,7 +12,6 @@ import br.com.mol.molapi.dtos.user.DoctorDTO;
 import br.com.mol.molapi.dtos.user.DoctorRegisterDTO;
 import br.com.mol.molapi.entity.Doctor;
 import br.com.mol.molapi.entity.User;
-import br.com.mol.molapi.entity.enums.State;
 import br.com.mol.molapi.exceptions.UserEmailException;
 import br.com.mol.molapi.managers.impl.UserManager;
 import br.com.mol.molapi.repositories.DoctorRepository;
@@ -33,7 +32,6 @@ public class DoctorService {
 
 		Doctor doctor = new Doctor();
 		doctor = (Doctor) userManager.prepareNewUser(doctor, doctorRegisterDTO);
-		doctor.setState(State.valueOf(doctorRegisterDTO.getState()));
 		doctor.setDigitalSignature(Base64.decodeBase64(doctorRegisterDTO.getDigitalSignatureBase64().getBytes()));
 		
 		return doctorRepository.save(doctor).getId();

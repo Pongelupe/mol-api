@@ -9,7 +9,6 @@ public class DoctorRegisterDTO extends UserRegisterDTO {
 
 	private String field;
 	private String rg;
-	private String state;
 	private String crm;
 	private String digitalSignatureBase64;
 	private String phone;
