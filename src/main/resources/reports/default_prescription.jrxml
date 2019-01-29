@@ -13,6 +13,7 @@
 	<field name="medicines" class="java.lang.Object"/>
 	<field name="doctor.name" class="java.lang.String"/>
 	<field name="doctor.crm" class="java.lang.String"/>
+	<field name="doctor.city" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -76,27 +77,14 @@
 				<subreportExpression><![CDATA["/home/pongelupe/workspace/java/personal/molapi/src/main/resources/reports/default_prescription_medicines.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="130">
+		<band height="153">
 			<textField>
-				<reportElement x="0" y="0" width="380" height="30" uuid="616e4480-affa-4ff3-b902-c872ad33106e"/>
+				<reportElement x="0" y="0" width="555" height="61" uuid="616e4480-affa-4ff3-b902-c872ad33106e"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Dr(a). " + $F{doctor.name} + " CRM:" + $F{doctor.crm}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Dr(a). " + $F{doctor.name} + " CRM:" + $F{doctor.crm} +"\n"   + $F{doctor.city} + ", " + new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></textFieldExpression>
 			</textField>
-			<image onErrorType="Blank">
-				<reportElement x="250" y="30" width="80" height="80" uuid="caae9039-c7ac-4eb3-9817-33dbb4e21608"/>
-				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
-new com.google.zxing.qrcode.QRCodeWriter().encode($F{doctor.crm},
-com.google.zxing.BarcodeFormat.QR_CODE, 300, 300))]]></imageExpression>
-			</image>
-			<staticText>
-				<reportElement x="250" y="103" width="80" height="20" uuid="aade096b-241b-4526-a010-2a0ce898ad4f"/>
-				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font size="6" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Assinado Digitamente]]></text>
-			</staticText>
 		</band>
 	</detail>
 </jasperReport>
