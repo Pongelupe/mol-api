@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
@@ -61,6 +62,10 @@ public class Prescription {
 	private Set<PrescriptionItem> prescriptionItems;
 
 	private PrescriptionType prescriptionType;
+	
+	@Column
+	@Lob
+	private byte[] prescriptionFile;
 
 	@PrePersist
 	protected void onCreate() {

@@ -23,22 +23,26 @@ public class Address {
 	private String id;
 
 	@Column(length = 8)
-	String cep;
+	private String cep;
 
 	@Column(length = 200)
-	String street;
+	private String street;
 
 	@Column(length = 50)
-	String neighborhood;
+	private String neighborhood;
 
 	@Column(length = 50)
-	String city;
+	private String city;
 
 	@Column(length = 3)
-	int number;
+	private int number;
 
 	@Enumerated(EnumType.STRING)
 	@Column(length = 2)
 	private State state;
+
+	public String formattedAddress() {
+		return street + " nº " + number + " - " + neighborhood + "\nCEP: " + cep + " - " + city + " - " + state;
+	}
 
 }

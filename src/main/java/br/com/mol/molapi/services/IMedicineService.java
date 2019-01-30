@@ -9,6 +9,6 @@ public interface IMedicineService {
 	
 	List<AutoCompleteDTO> searchQueryForAutoComplete(String query);
 	
-	String insertMedicine(Medicine medicine);
+	Medicine insertMedicine(Medicine medicine);
 
 }

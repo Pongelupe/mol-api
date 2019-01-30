@@ -3,17 +3,21 @@ package br.com.mol.molapi.services.impl;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.mol.molapi.dtos.prescription.PrescriptionDTO;
@@ -22,12 +26,16 @@ import br.com.mol.molapi.entity.Medicine;
 import br.com.mol.molapi.entity.Patient;
 import br.com.mol.molapi.entity.Prescription;
 import br.com.mol.molapi.entity.PrescriptionItem;
+import br.com.mol.molapi.enums.Reports;
 import br.com.mol.molapi.exceptions.GenericIdException;
+import br.com.mol.molapi.payloads.ReportPayload;
 import br.com.mol.molapi.repositories.MedicineRepository;
 import br.com.mol.molapi.repositories.PrescriptionRepository;
 import br.com.mol.molapi.repositories.dao.PrescriptionItemRepository;
 import br.com.mol.molapi.services.IMedicineService;
 import br.com.mol.molapi.services.IPatientService;
+import br.com.mol.molapi.services.IReportService;
+import net.sf.jasperreports.engine.JRException;
 
 @Service
 public class PrescriptionService {
@@ -53,20 +61,42 @@ public class PrescriptionService {
 	@Autowired
 	private ObjectMapper mapper;
 
-	public String create(PrescriptionDTO prescriptionDTO) throws GenericIdException {
+	@Autowired
+	private IReportService reportService;
+
+	public String create(PrescriptionDTO prescriptionDTO)
+			throws GenericIdException, JRException, JsonProcessingException {
 		if (prescriptionDTO.getId() != null && existsById(prescriptionDTO.getId())) {
 			throw new GenericIdException("Prescription with id: " + prescriptionDTO.getId() + "already exists.");
 		}
 
 		Prescription prescription = mapper.convertValue(prescriptionDTO, Prescription.class);
-		prescription.setDoctor(doctorService.findById(prescription.getDoctorId()));
+		Doctor doctor = doctorService.findById(prescription.getDoctorId());
+		prescription.setDoctor(doctor);
 		Patient patient = insertRetrivePatient(prescriptionDTO);
 		prescription.setPatient(patient);
 		prescription
 				.setShelfLife(Date.from(LocalDate.now().plusDays(30).atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		persistItensPrescription(prescription.getPrescriptionItems());
 
+		prescription.setPrescriptionFile(reportService
+				.generateReport(generateReportPayload(doctor, patient, prescription.getPrescriptionItems())));
+
 		return prescriptionRepository.save(prescription).getId();
+	}
+
+	private ReportPayload generateReportPayload(Doctor doctor, Patient patient, Set<PrescriptionItem> itens)
+			throws JsonProcessingException {
+		HashMap<String, Object> jsonReport = new HashMap<>();
+		jsonReport.put("doctor", doctor.toMap());
+		jsonReport.put("patient", patient.toMap());
+		jsonReport.put("medicines", getItensReport(itens));
+
+		return new ReportPayload(mapper.writeValueAsString(jsonReport), Reports.DEFAULT);
+	}
+
+	private List<Map<String, Object>> getItensReport(Set<PrescriptionItem> itens) {
+		return itens.stream().map(PrescriptionItem::toMap).collect(Collectors.toList());
 	}
 
 	private Patient insertRetrivePatient(PrescriptionDTO prescriptionDTO) {
@@ -84,7 +114,7 @@ public class PrescriptionService {
 			for (PrescriptionItem item : prescriptonItems) {
 				if (StringUtils.isBlank(item.getMedicineId()) && item.getMedicine() != null
 						&& StringUtils.isBlank(item.getMedicine().getId())) {
-					item.setMedicineId(insertMedicine(item.getMedicine()));
+					item.setMedicine(insertMedicine(item.getMedicine()));
 				} else {
 					item.setMedicine(medicineRepository.findById(item.getMedicineId()).orElse(null));
 				}
@@ -93,7 +123,7 @@ public class PrescriptionService {
 		}
 	}
 
-	private String insertMedicine(Medicine medicine) {
+	private Medicine insertMedicine(Medicine medicine) {
 		return medicineService.insertMedicine(medicine);
 	}
 
@@ -123,13 +153,18 @@ public class PrescriptionService {
 		Prescription prescription = prescriptionRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Prescription not found"));
 
-		return mapper.convertValue(prescription, PrescriptionDTO.class);
+		PrescriptionDTO prescriptionDTO = mapper.convertValue(prescription, PrescriptionDTO.class);
+		prescriptionDTO.setPrescriptionBase64(Base64.encodeBase64String(prescription.getPrescriptionFile()));
+		return prescriptionDTO;
 	}
 
 	public List<PrescriptionDTO> findByPatient(String patientId) {
 		List<Prescription> prescriptions = prescriptionRepository.findByPatientId(patientId);
-		return prescriptions.stream().map(p -> mapper.convertValue(p, PrescriptionDTO.class))
-				.collect(Collectors.toList());
+		return prescriptions.stream().map(p -> {
+			PrescriptionDTO prescriptionDTO = mapper.convertValue(p, PrescriptionDTO.class);
+			prescriptionDTO.setPrescriptionBase64(Base64.encodeBase64String(p.getPrescriptionFile()));
+			return prescriptionDTO;
+		}).collect(Collectors.toList());
 	}
 
 	public Boolean existsById(String id) {

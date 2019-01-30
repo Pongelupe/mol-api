@@ -1,5 +1,8 @@
 package br.com.mol.molapi.entity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,12 +15,13 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import br.com.mol.molapi.utils.ReportableJson;
 import lombok.Data;
 
 @Entity
 @Data
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class PrescriptionItem {
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+public class PrescriptionItem implements ReportableJson {
 
 	@Id
 	@Column(length = 36)
@@ -27,7 +31,7 @@ public class PrescriptionItem {
 
 	private Double quantity;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "medicine_id", updatable = false, nullable = true)
 	private Medicine medicine;
 
@@ -40,4 +44,17 @@ public class PrescriptionItem {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(updatable = false, nullable = true)
 	private Prescription prescription;
+
+	@Override
+	public Map<String, Object> toMap() {
+		HashMap<String, Object> props = new HashMap<>();
+		Medicine medicineItem = getMedicine();
+		props.put("name", medicineItem.getComercialName());
+		props.put("measureType", medicineItem.getMeasureType());
+		props.put("quantity", quantity);
+		props.put("description", description);
+		props.put("pharmaceuticalForm", medicineItem.getPharmaceuticalForm());
+		props.put("email", "melao");
+		return props;
+	}
 }

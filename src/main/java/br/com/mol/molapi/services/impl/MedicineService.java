@@ -22,8 +22,8 @@ public class MedicineService implements IMedicineService {
 	}
 
 	@Override
-	public String insertMedicine(Medicine medicine) {
-		return medicineRepository.save(medicine).getId();
+	public Medicine insertMedicine(Medicine medicine) {
+		return medicineRepository.save(medicine);
 	}
 
 }
