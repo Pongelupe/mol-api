@@ -25,6 +25,7 @@ public class MedicineDTO {
 	private TherapeuticalClass therapeuticalClass; 
 	private Date recordPublication;
 	private PrescriptionRestriction prescriptionRestriction;
+	private int sizePerPack;
 	private Boolean monodrug;
 	private RecordStatus recordStatus;
 	private Boolean fractionable;

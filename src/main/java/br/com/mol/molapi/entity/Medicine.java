@@ -83,6 +83,8 @@ public class Medicine {
 	private MeasureType measureType;
 
 	private IntendedFor intendedFor;
+	
+	private int sizePerPack;
 
 	private String preservation;
 
