@@ -24,7 +24,7 @@ public class ReportService implements IReportService {
 		InputStream inputStream = this.getClass().getResourceAsStream(payload.getReport().getPath());
 		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(inputStream);
 		HashMap<String, Object> parameters = new HashMap<>();
-		parameters.put("SUBREPORT_DIR", "./");
+		parameters.put("SUBREPORT_DIR", "reports/");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters,
 				new JsonDataSource(new ByteArrayInputStream(payload.getJson().getBytes())));
 		return JasperExportManager.exportReportToPdf(jasperPrint);
