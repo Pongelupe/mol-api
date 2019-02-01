@@ -2,6 +2,7 @@ package br.com.mol.molapi.services.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,9 @@ public class ReportService implements IReportService {
 	public byte[] generateReport(ReportPayload payload) throws JRException {
 		InputStream inputStream = this.getClass().getResourceAsStream(payload.getReport().getPath());
 		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(inputStream);
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null,
+		HashMap<String, Object> parameters = new HashMap<>();
+		parameters.put("SUBREPORT_DIR", "./");
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters,
 				new JsonDataSource(new ByteArrayInputStream(payload.getJson().getBytes())));
 		return JasperExportManager.exportReportToPdf(jasperPrint);
 	}

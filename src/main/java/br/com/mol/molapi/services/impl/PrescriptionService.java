@@ -75,6 +75,7 @@ public class PrescriptionService {
 		prescription.setDoctor(doctor);
 		Patient patient = insertRetrivePatient(prescriptionDTO);
 		prescription.setPatient(patient);
+		prescription.setCreatedAt(new Date());
 		prescription
 				.setShelfLife(Date.from(LocalDate.now().plusDays(30).atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		persistItensPrescription(prescription.getPrescriptionItems());
