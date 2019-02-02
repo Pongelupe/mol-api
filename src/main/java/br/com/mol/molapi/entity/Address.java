@@ -37,6 +37,9 @@ public class Address {
 	@Column(length = 3)
 	private int number;
 
+	@Column(length = 70)
+	private String complement;
+
 	@Enumerated(EnumType.STRING)
 	@Column(length = 2)
 	private State state;
