@@ -1,4 +1,4 @@
-package br.com.mol.molapi.repositories.dao;
+package br.com.mol.molapi.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

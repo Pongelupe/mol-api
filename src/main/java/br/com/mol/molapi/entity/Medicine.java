@@ -66,8 +66,7 @@ public class Medicine {
 	@Column(length = 90)
 	private String comercialName;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	private Set<PharmaceuticalForm> pharmaceuticalForm;
+	private String pharmaceuticalForm;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	private RegulatoryCategory regulatoryCategory;

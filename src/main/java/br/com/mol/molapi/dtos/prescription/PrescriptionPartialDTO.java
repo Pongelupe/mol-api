@@ -1,14 +1,14 @@
 package br.com.mol.molapi.dtos.prescription;
 
 import java.util.Date;
-import java.util.Set;
 
-import br.com.mol.molapi.dtos.user.UserRegisterDTO;
 import br.com.mol.molapi.entity.enums.PrescriptionType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class PrescriptionDTO {
+@AllArgsConstructor
+public class PrescriptionPartialDTO {
 
 	private String id;
 	private String observation;
@@ -16,7 +16,6 @@ public class PrescriptionDTO {
 	private Date createdAt;
 	private String doctorId;
 	private String patientId;
-	private UserRegisterDTO patient;
-	private Set<PrescriptionItemDTO> prescriptionItems;
 	private PrescriptionType prescriptionType;
+
 }

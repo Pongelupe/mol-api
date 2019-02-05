@@ -21,6 +21,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.mol.molapi.dtos.prescription.PrescriptionDTO;
+import br.com.mol.molapi.dtos.prescription.PrescriptionDetailedDTO;
+import br.com.mol.molapi.dtos.prescription.PrescriptionPartialDTO;
 import br.com.mol.molapi.entity.Doctor;
 import br.com.mol.molapi.entity.Medicine;
 import br.com.mol.molapi.entity.Patient;
@@ -30,8 +32,8 @@ import br.com.mol.molapi.enums.Reports;
 import br.com.mol.molapi.exceptions.GenericIdException;
 import br.com.mol.molapi.payloads.ReportPayload;
 import br.com.mol.molapi.repositories.MedicineRepository;
+import br.com.mol.molapi.repositories.PrescriptionItemRepository;
 import br.com.mol.molapi.repositories.PrescriptionRepository;
-import br.com.mol.molapi.repositories.dao.PrescriptionItemRepository;
 import br.com.mol.molapi.services.IMedicineService;
 import br.com.mol.molapi.services.IPatientService;
 import br.com.mol.molapi.services.IReportService;
@@ -150,22 +152,17 @@ public class PrescriptionService {
 		return doctorService.findById(doctorId);
 	}
 
-	public PrescriptionDTO findById(String id) {
+	public PrescriptionDetailedDTO findById(String id) {
 		Prescription prescription = prescriptionRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Prescription not found"));
 
-		PrescriptionDTO prescriptionDTO = mapper.convertValue(prescription, PrescriptionDTO.class);
+		PrescriptionDetailedDTO prescriptionDTO = mapper.convertValue(prescription, PrescriptionDetailedDTO.class);
 		prescriptionDTO.setPrescriptionBase64(Base64.encodeBase64String(prescription.getPrescriptionFile()));
 		return prescriptionDTO;
 	}
 
-	public List<PrescriptionDTO> findByPatient(String patientId) {
-		List<Prescription> prescriptions = prescriptionRepository.findByPatientId(patientId);
-		return prescriptions.stream().map(p -> {
-			PrescriptionDTO prescriptionDTO = mapper.convertValue(p, PrescriptionDTO.class);
-			prescriptionDTO.setPrescriptionBase64(Base64.encodeBase64String(p.getPrescriptionFile()));
-			return prescriptionDTO;
-		}).collect(Collectors.toList());
+	public List<PrescriptionPartialDTO> findByPatient(String patientId) {
+		return prescriptionRepository.findPrescriptionsPartialByPatientId(patientId);
 	}
 
 	public Boolean existsById(String id) {
