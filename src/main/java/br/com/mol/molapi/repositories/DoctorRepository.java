@@ -12,7 +12,9 @@ import br.com.mol.molapi.entity.User;
 public interface DoctorRepository extends JpaRepository<Doctor, String>{
 	
 	Optional<User> findByEmail(String email);
-	
+
+	Optional<User> findByCpf(String cpf);
+
 	boolean existsByEmail(String email);
 	
 	boolean existsById(String id);
