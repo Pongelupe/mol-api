@@ -40,6 +40,12 @@ public class DoctorService {
 	public Doctor findById(String id) {
 		return doctorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Doctor not found"));
 	}
+	
+	public DoctorDTO findByIdDTO(String id) {
+		return (DoctorDTO) doctorRepository.findById(id)
+				.map(d -> DTOConverter.mapPropertiesTo(d, new DoctorDTO()))
+				.orElseThrow(() -> new EntityNotFoundException("Doctor not found"));
+	}
 
 	public DoctorDTO findByEmail(String email) throws UserEmailException {
 		Optional<User> doctorOptional = doctorRepository.findByEmail(email);
@@ -55,6 +61,15 @@ public class DoctorService {
 
 	public Boolean existsByEmail(String email) {
 		return doctorRepository.existsByEmail(email);
+	}
+	
+	public DoctorDTO findByCpf(String cpf) throws UserEmailException {
+		Optional<User> doctorOptional = doctorRepository.findByCpf(cpf);
+		Doctor doctor = (Doctor) doctorOptional
+				.orElseThrow(() -> new UserEmailException("Doctor with cpf: " + cpf + " doesnt exists."));
+		DoctorDTO doctorDTO = new DoctorDTO();
+		DTOConverter.mapPropertiesTo(doctor, doctorDTO);
+		return doctorDTO;
 	}
 	
 	public Boolean existsById(String id) {

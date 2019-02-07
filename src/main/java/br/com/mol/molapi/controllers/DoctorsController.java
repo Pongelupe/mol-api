@@ -22,19 +22,23 @@ import br.com.mol.molapi.services.impl.DoctorService;
 @CrossOrigin
 @RequestMapping("/doctors")
 public class DoctorsController {
-	
+
 	@Autowired
 	private DoctorService doctorService;
-	
+
 	@PostMapping
-	public ResponseEntity<String> registerDoctor(
-			@RequestBody @Valid DoctorRegisterDTO doctorRegisterDTO) throws UserEmailException {
-		return new ResponseEntity<>(doctorService
-				.register(doctorRegisterDTO), HttpStatus.CREATED);
+	public ResponseEntity<String> registerDoctor(@RequestBody @Valid DoctorRegisterDTO doctorRegisterDTO)
+			throws UserEmailException {
+		return new ResponseEntity<>(doctorService.register(doctorRegisterDTO), HttpStatus.CREATED);
 	}
-	
+
 	@GetMapping("/{email}")
-	public ResponseEntity<DoctorDTO> getDoctor(@PathVariable String email) throws UserEmailException {
+	public ResponseEntity<DoctorDTO> getDoctorByEmail(@PathVariable String email) throws UserEmailException {
 		return new ResponseEntity<>(doctorService.findByEmail(email), HttpStatus.OK);
-	}	
+	}
+
+	@GetMapping("cpf/{cpf}")
+	public ResponseEntity<DoctorDTO> getDoctorCpf(@PathVariable String cpf) throws UserEmailException {
+		return new ResponseEntity<>(doctorService.findByCpf(cpf), HttpStatus.OK);
+	}
 }
