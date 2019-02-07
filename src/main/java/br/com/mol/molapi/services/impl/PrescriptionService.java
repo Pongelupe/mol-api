@@ -158,6 +158,7 @@ public class PrescriptionService {
 
 		PrescriptionDetailedDTO prescriptionDTO = mapper.convertValue(prescription, PrescriptionDetailedDTO.class);
 		prescriptionDTO.setPrescriptionBase64(Base64.encodeBase64String(prescription.getPrescriptionFile()));
+		prescriptionDTO.setDoctor(doctorService.findByIdDTO(prescription.getDoctorId()));
 		return prescriptionDTO;
 	}
 
