@@ -55,7 +55,7 @@ public class PrescriptionService {
 	private DoctorService doctorService;
 
 	@Autowired
-	private IPatientService pacientService;
+	private IPatientService patientService;
 
 	@Autowired
 	private IMedicineService medicineService;
@@ -103,13 +103,17 @@ public class PrescriptionService {
 	}
 
 	private Patient insertRetrivePatient(PrescriptionDTO prescriptionDTO) {
-		if ((prescriptionDTO.getPatientId() != null && !pacientService.existsById(prescriptionDTO.getPatientId()))
-				|| prescriptionDTO.getPatient() != null) {
-			return pacientService.registerPatient(prescriptionDTO.getPatient());
+		if(prescriptionDTO.getPatientId() != null 
+				&& patientService.existsById(prescriptionDTO.getPatientId())) {
+			return patientService.findById(prescriptionDTO.getPatientId())
+					.orElseThrow(EntityNotFoundException::new);
+		} else if(prescriptionDTO.getPatient() != null 
+				&& patientService.existsByEmail(prescriptionDTO.getPatient().getEmail())) {
+			return (Patient) patientService.findByEmail(prescriptionDTO.getPatient().getEmail())
+					.orElseThrow(EntityNotFoundException::new);
 		} else {
-			return pacientService.findById(prescriptionDTO.getPatientId()).orElseThrow(EntityNotFoundException::new);
+			return patientService.registerPatient(prescriptionDTO.getPatient());
 		}
-
 	}
 
 	private void persistItensPrescription(Set<PrescriptionItem> prescriptonItems) {

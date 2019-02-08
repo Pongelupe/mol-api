@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.mol.molapi.dtos.user.UserRegisterDTO;
 import br.com.mol.molapi.entity.Patient;
+import br.com.mol.molapi.entity.User;
 import br.com.mol.molapi.managers.impl.UserManager;
 import br.com.mol.molapi.repositories.PatientRepository;
 import br.com.mol.molapi.services.IPatientService;
@@ -52,4 +53,13 @@ public class PacientService implements IPatientService {
 		return patientRepository.existsById(id);
 	}
 
+	@Override
+	public Optional<User> findByEmail(String email) {
+		return patientRepository.findByEmail(email);
+	}
+
+	@Override
+	public boolean existsByEmail(String email) {
+		return patientRepository.existsByEmail(email);
+	}
 }
