@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.mol.molapi.dtos.LoginDTO;
+import br.com.mol.molapi.dtos.user.DoctorDTO;
 import br.com.mol.molapi.dtos.user.UserDTO;
 import br.com.mol.molapi.exceptions.LoginInvalidException;
 import br.com.mol.molapi.services.IAuthService;
@@ -30,9 +31,9 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<UserDTO> login(@RequestBody @Valid LoginDTO loginDTO) throws LoginInvalidException {
-		UserDTO idUser = authService.login(loginDTO).orElseThrow(LoginInvalidException::new);
-		return ResponseEntity.ok(idUser);
+	public ResponseEntity<?> login(@RequestBody @Valid LoginDTO loginDTO) throws LoginInvalidException {
+		UserDTO userDTO = authService.login(loginDTO).orElseThrow(LoginInvalidException::new);
+		return ResponseEntity.ok(userDTO instanceof DoctorDTO ? (DoctorDTO) userDTO : userDTO);
 	}
 
 }

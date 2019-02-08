@@ -9,7 +9,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.mol.molapi.dtos.LoginDTO;
+import br.com.mol.molapi.dtos.user.DoctorDTO;
 import br.com.mol.molapi.dtos.user.UserDTO;
+import br.com.mol.molapi.entity.Doctor;
 import br.com.mol.molapi.entity.User;
 import br.com.mol.molapi.repositories.DoctorRepository;
 import br.com.mol.molapi.repositories.PatientRepository;
@@ -33,7 +35,13 @@ public class AuthService implements IAuthService {
 		Optional<User> optionalDoctor = doctorRepository.findByEmail(loginDto.getEmail());
 		User user = optionalDoctor.orElseGet(() -> patientRepository.findByEmail(loginDto.getEmail())
 				.orElseThrow(() -> new EntityNotFoundException("User")));
-		UserDTO userDTO = new UserDTO();
+		
+		UserDTO userDTO = null;
+		if(user instanceof Doctor)
+			userDTO = new DoctorDTO();
+		else
+			userDTO = new UserDTO();
+		
 		DTOConverter.mapPropertiesTo(user, userDTO);
 
 		return passwordEncoder.matches(loginDto.getPassword(), user.getPassword()) ? Optional.of(userDTO)
